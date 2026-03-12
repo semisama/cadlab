@@ -113,3 +113,45 @@ FUNC_EXIT:
 .data
 .align 2
 values: .word 10, 20, 30, 40, 50
+
+//fist I tried it withour function  like this  ; 
+LDR R4, =values          
+    MOV R5, #5             
+    MOV R0, #0             
+    MOV R6, R5              
+
+    @ sum loop
+SUM_LOOP:
+    CMP R5, #0               
+    BEQ START_AVERAGE      (branch if equal)
+
+    LDR R1, [R4]            
+    ADD R0, R0, R1        
+    
+    ADD R4, R4, #4           
+    SUB R5, R5, #1           
+    B SUM_LOOP              
+
+
+START_AVERAGE:
+    MOV R1, R0               
+    MOV R2, #0              
+
+DIV_LOOP:
+    CMP R1, R6               
+    BLT DONE                 
+    
+    SUB R1, R1, R6           
+    ADD R2, R2, #1           
+    B DIV_LOOP               
+
+DONE:
+    @ Sonuçlar: R0 = Toplam, R2 = Ortalama
+    B STOP
+
+STOP:
+    B STOP
+
+.data
+.align 2
+values: .word 10, 20, 30, 40, 50
